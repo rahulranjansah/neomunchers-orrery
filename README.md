@@ -1,64 +1,80 @@
-# orrery
-An interactive map of the Solar System created with Three.js and jQuery.
+# Orrery
 
-This is currently live at http://alltheseworldsareyours.com
+An interactive map of the Solar System created with Three.js and jQuery, featuring visualizations of asteroid flybys and predictions of the probability distribution of Near-Earth Objects (NEOs). The project is live at [Orrery](https://neomunchers-orrery.vercel.app/). For optimal performance, especially on desktop, please reload the page if loading takes time.
 
-It's definitely better as a desktop web experience than mobile in the current version.
+https://neomunchers-orrery.vercel.app/
 
 ## Requirements
+
 - [Three.js](https://github.com/mrdoob/three.js/)
 - [jQuery](https://github.com/jquery/jquery) and [jQuery UI](https://github.com/jquery/jquery-ui)
 - [Tween.js](https://github.com/tweenjs/tween.js/)
 
 ## Features
-- Ephemerides for astronomical bodies in the Solar System, searachable for all above 1km in radius 
-- Exaggerated orrery view at the solar system scale, zoomable to true scale for planetary systems
-- Live data readout for the body's physical and orbital characteristics, right ascension/declination and altitude/azimuth coordintes relative to current location, rise and set times, and magnitude adjusted for atmospheric dispersion
-- Links to articles and images from Wikipedia
-- Background stars include all above 7th magnitude
-- HTTPvars for latitiude/longitude, start time, and reducing particle count
+
+- **Ephemerides** for astronomical bodies in the Solar System, searchable for all bodies above 1 km in radius.
+- **Exaggerated orrery view** at the solar system scale, with the ability to zoom to true scale for planetary systems.
+- **Live data readouts** including right ascension/declination, altitude/azimuth coordinates relative to your current location, rise/set times, and magnitude adjusted for atmospheric dispersion.
+- **Background stars** include all above 7th magnitude.
+- **3D rendered visualizations** from the OSIRIS-REx, Rosetta, and DART missions.
+- **Data analysis** for an unbiased NEO model, showing the probability distribution of undiscovered NEOs.
+
+## Datasets
+
+This project includes various datasets stored within the `datasets` sub-directory. The datasets are organized as follows:
+
+- **/neo-datasets/databases/neos/**: Contains NEODys data for NEOs system bodies both biased and unbiased of Granvik model.
+- **/neo-datasets/kernels/**: Includes lsk, dsk, spk, pck for conversion and rendering
+- **/public/data**: Provides information on background stars, Moons, planets, and pictures.
+
+Each dataset is accompanied by a README file detailing its structure, source, and usage.
 
 ## Setup
-- npm init
-- npm i three-js
+
+To set up the project, run the following commands:
+
+1. Initialize the project:
+   ```sh
+   npm init
+
+2. Install dependencies:
+    ```
+    npm install three-js
+
+
 
 ## Usage
-### Navigation
-- SPACE BAR: Pause/resume time
-- LEFT/RIGHT ARROW KEYS: Change speed
-- DOWN ARROW KEY: Set to current time
-- UP ARROW KEY: Toggle chase mode on focused object
-- ESC: Release focus on object
-- F2: Hide/show UI panels
-- F4: Hide/show celestial sphere
-- F8: Hide/show extra time info
-- CLICK ON LABELS: Shift focus to object and display info
-- CLICK ON INFO HEADER OR IMAGE: Learn more on Wikipedia
-- LEFT/MID/RIGHT MOUSE + DRAG: Rotate/zoom/translate around focus
-- SCROLL WHEEL: Zoom to focus
-### HTTP Variables
-- ?x=(decimal degrees): Longitude
-- ?y=(decimal degrees): Latitude
-- ?t=(YYYYMMDDHHMM): Date (Years can be -9999 to 9999, time in military time format, e.g. 0615)
-- ?n=(integer) Small asteroid limit
 
-## Potential Roadmap
-- UI scaling for mobile
-- Object count throttling from FPS observation
-- Non-periodic comets/hyperbolic orbits (`Omuamua, etc.)
-- Extended data/add ins for smaller objects
-- Planetarium view with sky shader
-- Asteroid categorization from orbital elements
-- Asteroid 3D shapes
+### Navigation
+
+To control the Orrery, use the following keys:
+
+- **SPACE BAR**: Pause or resume time.
+- **LEFT/RIGHT ARROW KEYS**: Adjust the speed of time.
+- **DOWN ARROW KEY**: Reset the view to the current time.
+- **UP ARROW KEY**: Toggle chase mode on the focused object.
+- **ESC**: Release focus on an object.
+
+You can also:
+
+- Show/hide UI panels with **F2**.
+- Display the celestial sphere with **F4**.
+- Reveal extra time info with **F8**.
+
+Click on labels to focus on objects and view detailed information. Use mouse buttons to rotate, zoom, or move around the focused object, and scroll with the wheel to zoom in. The **flyby navbar** directs you to a gallery with updates on NEO progress and upcoming missions, while the **model navbar** shows NEO concentration and distribution across the sky.
+
+## Potential Upgrades
+
+- UI scaling for Android/iOS devices
+- Object count throttling based on FPS observation
+- Search bar functionality
+- Support for non-periodic comets and hyperbolic orbits (e.g., `Oumuamua`)
+- Extended data and add-ins for smaller objects
+- 3D shapes for asteroids
 - Ring shadows
-- Spacecraft/Two Line Element reader
-- NASA SPICE kernels
-- Better image compression (Basis)
-- THREE.CSS2D renderer or Canvas for tags (if faster)
+- Spacecraft/Two-Line Element (TLE) reader
+- Additional data from NASA SPICE kernels
 - Procedural textures
 - Exoplanetary systems
-- Lagrange points/Hill spheres for planets
-- XR
-- Hohmann transfer orbits, launch window solver, delta-v requirements
+- Hohmann transfer orbits
 - Gravitational simulations
-- Compute shaders
