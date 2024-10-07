@@ -2,13 +2,7 @@
 
 An interactive map of the Solar System created with Three.js and jQuery, featuring visualizations of asteroid flybys and predictions of the probability distribution of Near-Earth Objects (NEOs). The project is live at [Orrery](https://neomunchers-orrery.vercel.app/). For optimal performance, especially on desktop, please reload the page if loading takes time.
 
-https://neomunchers-orrery.vercel.app/
-
-## Requirements
-
-- [Three.js](https://github.com/mrdoob/three.js/)
-- [jQuery](https://github.com/jquery/jquery) and [jQuery UI](https://github.com/jquery/jquery-ui)
-- [Tween.js](https://github.com/tweenjs/tween.js/)
+[https://neomunchers-orrery.vercel.app/](https://neomunchers-orrery-one.vercel.app/)
 
 ## Features
 
@@ -33,13 +27,13 @@ Each dataset is accompanied by a README file detailing its structure, source, an
 
 To set up the project, run the following commands:
 
-1. Initialize the project:
+1. Install dependencies:
    ```sh
-   npm init
+   yarn install
 
-2. Install dependencies:
+2. Start server:
     ```
-    npm install three-js
+    yarn run dev
 
 
 
