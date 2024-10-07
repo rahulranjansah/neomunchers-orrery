@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Flybys Visualization</title>
+
+    <!-- shaders -->
+    <script type="x-shader/x-vertex" id="vertexshader">
+      varying vec2 vUv;
+      void main() {
+      	vUv = uv;
+      	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentshader">
+      uniform sampler2D baseTexture;
+      uniform sampler2D bloomTexture;
+      varying vec2 vUv;
+      void main() {
+      	gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+      }
+    </script>
+
+    <link rel="stylesheet" href="css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="css/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/orrery.css" />
+
+    <link rel="manifest" href="data/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="data/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <style>
+      .video-btn a {
+        font-size: 15px;
+        position: relative;
+        top: 25px;
+        right: 5px;
+        color: #043381;
+      }
+
+      .video-btn a span {
+        position: absolute;
+        border-left: 12px solid #000fff;
+        border-top: 8px solid #fff;
+        border-bottom: 8px solid #fff;
+      }
+
+      @keyframes pulse {
+        0% {
+          -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
+            0 0 0 10px rgba(255, 255, 255, 0.1),
+            0 0 0 20px rgba(255, 255, 255, 0.1);
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
+            0 0 0 10px rgba(255, 255, 255, 0.1),
+            0 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        100% {
+          -webkit-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1),
+            0 0 0 20px rgba(255, 255, 255, 0.1),
+            0 0 0 100px rgba(255, 255, 255, 0);
+          box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1),
+            0 0 0 20px rgba(255, 255, 255, 0.1),
+            0 0 0 100px rgba(255, 255, 255, 0);
+        }
+      }
+
+      /* .vedio-btn i {
+  color: #000cca;
+} */
+
+      .close-btn {
+        position: absolute;
+        top: 14%;
+        right: 20%;
+        padding: 10px;
+        background: transparent;
+        border: 0;
+        font-size: 20px;
+        color: #bebbbb;
+        cursor: pointer;
+      }
+
+      .modal-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      .modal-container.show-modal {
+        display: block;
+      }
+
+      .modal {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        animation-name: modalopen;
+        animation-duration: 1s;
+      }
+      #modal-vedio {
+        position: absolute;
+      }
+    </style>
+
+    <style>
+      #flyby-visualization {
+        height: 100svh;
+        width: 100%;
+        overflow: scroll;
+
+        display: flex;
+        flex-direction: column;
+      }
+      .flyby-container {
+        width: 100%;
+        display: flex;
+      }
+      .flyby-image, .flyby-description {
+        flex: 0.5;
+        color: white;
+        padding: 40px;
+      }
+      .flyby-description {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 20px;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .flyby-description button {
+        border: 1px solid white;
+        outline: none;
+        border-radius: 30px;
+        padding: 10px 50px;
+        color: white;
+        width: 300px;
+        height: 50px;
+      } 
+
+      .flyby-image img {
+        height: 400px;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nav-tabs">
+      <div
+        class="nav-link"
+        id="bennu-btn"
+        onclick="window.location.assign('./index.html')"
+      >
+        Home
+      </div>
+      <div class="nav-link" onclick="window.location.assign('./flyby.html')">
+        Flybys
+      </div>
+    </div>
+
+    <div id="splashScreen">
+      <div id="splash-loading-wrapper">
+        <div id="loading-ring"></div>
+        <div id="logo-background"></div>
+        <img id="logo" src="data/logo.png" style="object-fit: contain" />
+      </div>
+      <div id="splash-content-container">
+        <script>
+          if (/Mobi|Android/i.test(navigator.userAgent)) {
+            document.getElementById("splash-content-container").hidden = true;
+          }
+        </script>
+        <p>Neomunchers get ready with your munchies to explore the universe</p>
+        <p>
+          Data courtesy of <a href="http://nasa.gov" target="_blank">NASA</a>,
+          <a href="http://jpl.nasa.gov" target="_blank">JPL</a>,
+          <a href="http://en.wikipedia.org" target="_blank">Wikipedia</a>, and
+          <a href="https://www.solarsystemscope.com" target="_blank"
+            >Solar System Scope</a
+          >.
+        </p>
+        <button id="clearSplash">Close</button>
+      </div>
+    </div>
+
+    <div id="flyby-visualization">
+
+    </div>
+  </body>
+  <script>
+    const splashScreen = document.getElementById("splashScreen");
+    const dataSets = [
+      {
+        Abb: "Didymous",
+        Name: "65803",
+        Epoch_MJD: 60600.0,
+        SemMajAxis_AU: 1.64259976140734,
+        Ecc_: 0.383251161082194,
+        Incl_deg: 3.41417459801425,
+        LongAscNode_deg: 72.9859390758235,
+        ArgP_deg: 319.602700791966,
+        MeanAnom_deg: 339.929961479886,
+        AbsMag_: 18.12,
+        SlopeParamG_: 0.15,
+        Aphel_AU: 2.27212802716004,
+        Perihel_AU: 1.01307149565464,
+        NEOClass: "Apollo",
+        story: `Didymos is a near-Earth asteroid (NEO) discovered in 1996. It is part of a binary system, with the
+    main body measuring about 780 meters in diameter and a smaller "moonlet," named Dimorphos,
+    orbiting it. Didymos is classified as a Potentially Hazardous Asteroid (PHA) due to its proximity
+    to Earth's orbit.
+    In 2022, NASA's DART (Double Asteroid Redirection Test) mission targeted Didymos' moonlet
+    Dimorphos to test planetary defense techniques. The mission successfully altered Dimorphos' orbit,
+    demonstrating that asteroids can be deflected, an important step in protecting Earth from future
+    asteroid threats. Didymos’ unique characteristics make it a valuable subject for understanding NEOs
+    and planetary defense strategies.`,
+        image: "/flybys_gif/didymos.gif",
+      },
+      {
+        Abb: "Stein",
+        Name: "2867",
+        Epoch_MJD: 60600.5,
+        SemMajAxis_AU: 2.365208993973021,
+        Ecc_: 0.1455164445768185,
+        Incl_deg: 9.929375137470117,
+        LongAscNode_deg: 55.33347401848026,
+        ArgP_deg: 251.3574059623025,
+        MeanAnom_deg: 112.7677797273789,
+        AbsMag_: 13.17,
+        SlopeParamG_: 0.15,
+        Aphel_AU: 2.02103219049,
+        Perihel_AU: 2.02103219049,
+        NEOClass: "Other",
+        story: `Officially known as 2867 Šteins, is a small, diamond-shaped asteroid located in the asteroid belt,
+    discovered in 1969. It’s not classified as a Near-Earth Object (NEO), as it resides between Mars
+    and Jupiter, far from Earth's orbit. Steins is primarily composed of silicate materials, making it an
+    E-type asteroid.
+    In 2008, the European Space Agency's Rosetta spacecraft flew by Steins, capturing detailed images
+    and data. This flyby revealed Steins' unique shape, cratered surface, and composition, contributing
+    valuable information to the study of small bodies in the asteroid belt.`,
+        image: "/flybys_gif/Stein.gif",
+      },
+      {
+        Abb: "67P",
+        Name: "10000012",
+        Epoch_MJD: 52520.5,
+        SemMajAxis_AU: 3.462249489765068,
+        Ecc_: 0.6409081306555051,
+        Incl_deg: 7.040294906760007,
+        LongAscNode_deg: 50.13557380441372,
+        ArgP_deg: 12.79824973415729,
+        MeanAnom_deg: 8.859927418758764,
+        AbsMag_: 12.9,
+        SlopeParamG_: 0.15,
+        Aphel_AU: 5.681233338113374,
+        Perihel_AU: 1.243265641416762,
+        NEOClass: "Other",
+        story: `Though not a Near-Earth Object (NEO), 67P gained attention in 2014 when the European Space
+    Agency's Rosetta mission successfully landed the Philae probe on its surface, marking the first-
+    ever landing on a comet. Rosetta studied the comet's composition, revealing important clues about
+    the solar system’s formation and the role comets may have played in delivering water and organics
+    to Earth.`,
+        image: "/flybys_gif/Comet67P.gif",
+      },
+      {
+        Abb: "Bennu",
+        Name: "101955",
+        Epoch_MJD: 59000.0,
+        SemMajAxis_AU: 1.12590791866781,
+        Ecc_: 0.203690880526369,
+        Incl_deg: 6.03413493606636,
+        LongAscNode_deg: 2.0073160459639,
+        ArgP_deg: 66.3378414065281,
+        MeanAnom_deg: 57.6007687949117,
+        AbsMag_: 20.64,
+        SlopeParamG_: 0.15,
+        Aphel_AU: 1.35524509401287,
+        Perihel_AU: 0.896570743322751,
+        NEOClass: "Apollo",
+        story: `Bennu, a small, ancient asteroid, has traveled through space for over 4.5 billion years. Rich in
+    carbon and organic material, it's a pristine time capsule from the early solar system, possibly
+    containing clues to the origin of life. Discovered in 1999, Bennu is classified as a Near-Earth
+    Object (NEO), meaning it orbits close to Earth. While it poses a slight risk of collision in the late
+    22nd century, its proximity makes it a key target for study.
+    In 2016, NASA's OSIRIS-REx mission was launched to explore Bennu. The spacecraft collected a
+    sample from its surface in 2020, returning it to Earth in 2023. Bennu’s secrets could unlock answers
+    about the formation of our solar system and life itself.`,
+        image: "/flybys_gif/benu.gif",
+      },
+    ];
+
+    const flybySection = document.getElementById("flyby-visualization");
+    console.log(flybySection);
+    dataSets.forEach((dataPoints) => {
+      flybySection.innerHTML += `<div class="flyby-container">
+        <div class="flyby-image">
+          <img src="${dataPoints.image}" />
+        </div>
+        <div class="flyby-description">
+            <div>${dataPoints.story}</div>
+             <button onclick='alert(JSON.stringify(${JSON.stringify(dataPoints)}))'>See more</button>
+        </div>
+       
+      </div>`;
+    });
+
+    setTimeout(() => {
+      splashScreen.style.display = "none";
+    }, 3000);
+  </script>
+</html>

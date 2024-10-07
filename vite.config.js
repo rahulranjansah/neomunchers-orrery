@@ -1,11 +1,19 @@
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { resolve } from 'path'
+
 
 export default defineConfig({
   base: './', // Ensure relative paths
   build: {
     outDir: 'dist', // Output directory
     minify: false, // Disable minification
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        flyby: resolve(__dirname, 'flyby.html'),
+      },
+    },
   },
   plugins: [
     createHtmlPlugin({

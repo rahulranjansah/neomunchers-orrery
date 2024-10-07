@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-    <title>All These Worlds Are Yours</title>
+    <title>Neomunchers Orrery</title>
 
     <!-- shaders -->
     <script type="x-shader/x-vertex" id="vertexshader">
@@ -32,75 +32,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/orrery.css" />
 
-    <link
-      rel="apple-touch-icon"
-      sizes="57x57"
-      href="data/apple-icon-57x57.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="60x60"
-      href="data/apple-icon-60x60.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="72x72"
-      href="data/apple-icon-72x72.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="76x76"
-      href="data/apple-icon-76x76.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="114x114"
-      href="data/apple-icon-114x114.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="120x120"
-      href="data/apple-icon-120x120.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="144x144"
-      href="data/apple-icon-144x144.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="152x152"
-      href="data/apple-icon-152x152.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="data/apple-icon-180x180.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="data/android-icon-192x192.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="data/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="96x96"
-      href="data/favicon-96x96.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="data/favicon-16x16.png"
-    />
     <link rel="manifest" href="data/manifest.json" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="data/ms-icon-144x144.png" />
@@ -247,7 +178,8 @@
 
     <div id="nav-tabs">
       <div class="nav-link" id="bennu-btn">Bennu Visualization</div>
-      <div class="nav-link">Flybys</div>
+      <div class="nav-link" onclick="window.location.assign('./flyby.html')">Flybys</div>
+      <div class="nav-link" onclick="window.location.assign('/')">Data Prediction</div>
     </div>
 
     <div id="modal-video-container">
