@@ -35,8 +35,6 @@ To set up the project, run the following commands:
     ```
     yarn run dev
 
-
-
 ## Usage
 
 ### Navigation
@@ -72,3 +70,13 @@ Click on labels to focus on objects and view detailed information. Use mouse but
 - Exoplanetary systems
 - Hohmann transfer orbits
 - Gravitational simulations
+
+## Sample Output
+
+![Apollo Dot Plot](neo-datasets/results/apollodot.png)
+
+*Figure 1: This plot visualizes the observable region of Apollo NEOs distribution in sky concentrated after considering solar elongation of 45 degrees.*
+
+![Apollo Dot Plot](public/data/bennu.png)
+
+*Figure 2: 3D rendered Bennu asteroid using SPICE DSK files from OSIRIS-ReX.*
