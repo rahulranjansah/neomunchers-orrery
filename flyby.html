@@ -38,89 +38,6 @@
     <meta name="theme-color" content="#ffffff" />
 
     <style>
-      .video-btn a {
-        font-size: 15px;
-        position: relative;
-        top: 25px;
-        right: 5px;
-        color: #043381;
-      }
-
-      .video-btn a span {
-        position: absolute;
-        border-left: 12px solid #000fff;
-        border-top: 8px solid #fff;
-        border-bottom: 8px solid #fff;
-      }
-
-      @keyframes pulse {
-        0% {
-          -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
-            0 0 0 10px rgba(255, 255, 255, 0.1),
-            0 0 0 20px rgba(255, 255, 255, 0.1);
-          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
-            0 0 0 10px rgba(255, 255, 255, 0.1),
-            0 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        100% {
-          -webkit-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1),
-            0 0 0 20px rgba(255, 255, 255, 0.1),
-            0 0 0 100px rgba(255, 255, 255, 0);
-          box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.1),
-            0 0 0 20px rgba(255, 255, 255, 0.1),
-            0 0 0 100px rgba(255, 255, 255, 0);
-        }
-      }
-
-      /* .vedio-btn i {
-  color: #000cca;
-} */
-
-      .close-btn {
-        position: absolute;
-        top: 14%;
-        right: 20%;
-        padding: 10px;
-        background: transparent;
-        border: 0;
-        font-size: 20px;
-        color: #bebbbb;
-        cursor: pointer;
-      }
-
-      .modal-container {
-        background-color: rgba(0, 0, 0, 0.7);
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
-
-      .modal-container.show-modal {
-        display: block;
-      }
-
-      .modal {
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        position: absolute;
-        overflow: hidden;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 100%;
-        animation-name: modalopen;
-        animation-duration: 1s;
-      }
-      #modal-vedio {
-        position: absolute;
-      }
-    </style>
-
-    <style>
       #flyby-visualization {
         height: 100svh;
         width: 100%;
@@ -133,7 +50,8 @@
         width: 100%;
         display: flex;
       }
-      .flyby-image, .flyby-description {
+      .flyby-image,
+      .flyby-description {
         flex: 0.5;
         color: white;
         padding: 40px;
@@ -155,16 +73,93 @@
         color: white;
         width: 300px;
         height: 50px;
-      } 
+      }
 
       .flyby-image img {
         height: 400px;
         object-fit: contain;
       }
+
+      .flyby-seemore {
+        transition: linear 0.5s;
+        cursor: pointer;
+      }
+
+      .flyby-seemore:hover {
+        transform: scale(1.1);
+      }
+
+      /* modal part */
+      #modal-background {
+        display: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      #modal {
+        background-color: rgb(59, 59, 59);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 90%;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+        font-size: 1.5rem;
+        animation-name: animatemodal;
+        animation-duration: 0.4s;
+        z-index: 999;
+
+        overflow: scroll;
+      }
+
+      .yes,
+      .no {
+        border: none;
+        padding: 7px 14px;
+        font-size: 1rem;
+        border-radius: 5px;
+      }
+
+      #close-btn {
+        align-self: flex-start;
+        font-size: 4rem;
+        color: white;
+      }
+
+      #close-btn:hover {
+        cursor: pointer;
+        color: #ff0000;
+      }
+
+      /* modal part end */
+
+      /* animation part */
+      @keyframes animatemodal {
+        from {
+          top: -300px;
+          opacity: 0;
+        }
+        to {
+          top: 50%;
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
-    <div id="nav-tabs">
+    <div id="nav-tabs" style="z-index: 888">
       <div
         class="nav-link"
         id="bennu-btn"
@@ -202,8 +197,12 @@
       </div>
     </div>
 
-    <div id="flyby-visualization">
+    <div id="flyby-visualization"></div>
 
+    <div id="modal-background">
+      <div id="modal">
+        <span id="close-btn">&times;</span>
+      </div>
     </div>
   </body>
   <script>
@@ -234,6 +233,31 @@
     asteroid threats. Didymos’ unique characteristics make it a valuable subject for understanding NEOs
     and planetary defense strategies.`,
         image: "/flybys_gif/didymos.gif",
+        moreImages: [
+          "/flybys_gif/didymos.gif",
+          "/flybys_gif/dimorphos.gif",
+          "/flybys_gif/dartdimorphosimpct.png",
+          "/flybys_gif/dartdimorphosimpacebeforeseconds.png",
+        ],
+        detailStory: `Dimorphos was selected for study because it provides a unique opportunity to analyze the effects of
+an impact on an asteroid. At the time of the impact, Dimorphos was passing within 11 million
+kilometers of Earth, allowing for precise tracking and predictions of its location. This close
+approach was the best opportunity for impact, occurring on October 4, 2022, and it wouldn't come
+this close again until 2062. To enhance observation, the impact was executed a week early,
+coinciding with the asteroid’s brightest visibility.
+The Double Asteroid Redirection Test aimed to alter Dimorphos’s trajectory just enough to avoid a
+potential future collision with Earth. A change of merely one percent could be sufficient to avert
+disaster. The challenge was measuring such a small shift in trajectory from a distance of 11 million
+kilometers, where even spacecraft footage offered limited data. Instead of waiting years to measure
+the asteroid's orbit, scientists looked at binary systems, where a smaller asteroid orbits a larger one.
+This setup allows for the assessment of changes in velocity due to an impact without needing to
+track multiple orbits around the Sun.
+For the experiment to be effective, the orbiting asteroid needed to have an eclipsing path visible
+from Earth, meaning it would pass in front of and behind the larger asteroid. This way, the two
+asteroids would appear as a single point of light from our perspective, facilitating the measurement
+of any changes resulting from the impact.
+(Source: John Hopkins Laboratory of Applied Physics, NASA, Real Engineering Youtube)`,
+        about: "1. Dart colliding with Dimorphos third person perspective. 2. Point of impact moments before DART collided with Dimorphos first person perspective",
       },
       {
         Abb: "Stein",
@@ -258,6 +282,19 @@
     and data. This flyby revealed Steins' unique shape, cratered surface, and composition, contributing
     valuable information to the study of small bodies in the asteroid belt.`,
         image: "/flybys_gif/Stein.gif",
+        moreImages: [
+          "/flybys_gif/Stein.gif",
+          "/flybys_gif/steinrealrosettaview.png",
+        ],
+        detailStory: `Story of 2867 Stein
+In 2007, the Rosetta spacecraft flew by Earth for a second time, passing at a distance of 5,700 km.
+During this flyby, ground-based telescopes mistook it for a near-Earth asteroid and added it to the
+Catalina Sky Survey as a potential 20-meter Earth impactor. A few days later, the error was
+corrected.
+After gaining speed from the flyby, Rosetta’s path took it past 2867 Šteins, a small 5 km asteroid in
+the asteroid belt beyond Mars, where it captured these images.
+(Source: ESA, Catalina Sky Survey)`,
+        about: "Stein images",
       },
       {
         Abb: "67P",
@@ -280,6 +317,27 @@
     the solar system’s formation and the role comets may have played in delivering water and organics
     to Earth.`,
         image: "/flybys_gif/Comet67P.gif",
+        moreImages: [
+          "/flybys_gif/Comet67P.gif",
+          "/flybys_gif/67pphilaelander.png",
+        ],
+        about: "Crashed Philae Probe pointing towards its harpoon (67p)",
+        detailStory: `Philae touched down on the comet and sent a signal back to mission control, indicating a successful
+landing. However, things quickly went wrong. The harpoons meant to anchor it didn’t fire, and the
+probe bounced off the surface.
+Commands were sent to begin scientific experiments, but at the time, Philae was actually floating in
+space, still bouncing. It took a while to realize what had happened. Fortunately, the bounce was
+slow, at just 38 cm per second, so it only rose about 1 kilometer before coming back down. Over
+two hours, Philae bounced three times before finally coming to rest.
+Unfortunately, it ended up far from its intended landing site, in a shadowy area with little sunlight.
+Its solar panels couldn’t generate enough power, so the mission was cut short from an expected five
+months to less than 60 hours.
+By November 14th, Philae’s battery died, and communication was lost. Amazingly, in June 2015, as
+the comet got closer to the Sun, Philae briefly powered on and sent a signal back to Rosetta, even
+performing one last experiment. But as the comet became more active, Rosetta had to move farther
+away to stay safe.
+On July 9th, Philae transmitted its final signal, and then went silent for good. In September, mission
+controllers finally located Philae’s resting place, with one of its legs visible on the comet’s surface.(Source: ESA)`,
       },
       {
         Abb: "Bennu",
@@ -305,19 +363,38 @@
     sample from its surface in 2020, returning it to Earth in 2023. Bennu’s secrets could unlock answers
     about the formation of our solar system and life itself.`,
         image: "/flybys_gif/benu.gif",
+        moreImages: ["/flybys_gif/benu.gif", "/flybys_gif/osiris_landing.png"],
+        detailStory: `On October 20th, 2020, OSIRIS-REx made its final descent to the sample site, Nightingale. With its
+TAGSAM arm extended, it approached the surface at just 10 centimeters per second, moving as
+slow as an insect. One second after touching down, it released pressurized nitrogen, blasting
+particles into the TAGSAM head to collect a sample. Six seconds in, while still sinking into Bennu,
+the spacecraft fired its thrusters to back away. The engine burn lasted 24 seconds, slowing its
+descent. Dust and debris from the thrusters and gas release hit the science instruments, clogging
+them. Nine seconds after contact, OSIRIS-REx had sunk about half a meter into Bennu before
+starting to rise. Sixteen seconds in, the TAGSAM head emerged, and by 30 seconds, the thrusters
+shut off as the spacecraft drifted away with its sample.
+Almost six months later, on April 7th, 2021, the spacecraft made one final flyover to observe the
+site. A new crater had formed at the impact point, about 8 meters wide and 68 centimeters deep. The
+thruster marks crossed in an X pattern, increasing the crater's size by 40%. A ridge of material
+ejected during the sample collection surrounded the crater like a ring.
+With a burst of gas and an engine burn, OSIRIS-REx displaced 12 cubic meters of loose rock—
+around six tons, packed as lightly as popcorn.
+After its final maneuver in May 2021, OSIRIS-REx began its two-year journey back to Earth,
+carrying 250 grams of asteroid Bennu for future discoveries. (Source: Surprise – Again! Asteroid Bennu Reveals its Surface is Like a Plastic Ball Pit, NASA
+Goddard)`,
+        about: "Bennu Landing site study simulation",
       },
     ];
 
     const flybySection = document.getElementById("flyby-visualization");
-    console.log(flybySection);
-    dataSets.forEach((dataPoints) => {
+    dataSets.forEach((dataPoints, index) => {
       flybySection.innerHTML += `<div class="flyby-container">
         <div class="flyby-image">
           <img src="${dataPoints.image}" />
         </div>
         <div class="flyby-description">
             <div>${dataPoints.story}</div>
-             <button onclick='alert(JSON.stringify(${JSON.stringify(dataPoints)}))'>See more</button>
+             <button class='flyby-seemore' onclick='showModal(${index})'>See more</button>
         </div>
        
       </div>`;
@@ -326,5 +403,78 @@
     setTimeout(() => {
       splashScreen.style.display = "none";
     }, 3000);
+
+    // select the open-btn button
+    let openBtn = document.getElementById("open-btn");
+    // select the modal-background
+    let modalBackground = document.getElementById("modal-background");
+    // select the close-btn
+    let closeBtn = document.getElementById("close-btn");
+
+    // shows the modal when the user clicks open-btn
+    openBtn.addEventListener("click", function () {
+      modalBackground.style.display = "block";
+    });
+
+    // hides the modal when the user clicks close-btn
+    closeBtn.addEventListener("click", function () {
+      console.log("gggg");
+      modalBackground.style.display = "none";
+    });
+
+    // hides the modal when the user clicks outside the modal
+    window.addEventListener("click", function (event) {
+      // check if the event happened on the modal-background
+      if (event.target === modalBackground) {
+        // hides the modal
+        modalBackground.style.display = "none";
+      }
+    });
+
+    function closeModal() {
+      modalBackground.style.display = "none";
+    }
+
+    function showModal(index) {
+      modalBackground.style.display = "block";
+      const dataPoint = dataSets[index];
+      const orbitalData = { ...dataPoint };
+      delete orbitalData.image;
+      delete orbitalData.story;
+      delete orbitalData.moreImages;
+      delete orbitalData.detailStory;
+      delete orbitalData.about;
+      const modalContainer = document.getElementById("modal");
+
+      let orbitalDataHTMLString = "";
+      let imagesHTMLString = "";
+
+      Object.keys(orbitalData).map((item) => {
+        orbitalDataHTMLString += `<span>${item}: ${orbitalData[item]}</span>`;
+      });
+      dataPoint.moreImages.map((item) => {
+        imagesHTMLString += `<img src="${item}" style="height: 400px; object-fit: contain;" />`;
+      });
+
+      modalContainer.innerHTML = `        <span id="close-btn" onclick="closeModal()">&times;</span>
+<div style="display: flex;flex-direction: column;gap: 20px; color: white;">
+
+          <div style="color: white; display:flex; gap: 10px; flex-wrap: wrap;">
+            ${imagesHTMLString}
+          </div>
+          <div>Fig: ${dataPoint.about}</div>
+
+          <div style="display: flex; flex-direction: column;gap: 10px;">
+            <h3>About</h3>
+            <div>${dataPoint.detailStory}</div>
+            <h3>Orbital Data</h3>
+            <div style="display:flex;flex-direction: column;gap:5px;">
+              ${orbitalDataHTMLString}
+            </div>
+          </div>
+
+
+        </div>`;
+    }
   </script>
 </html>
