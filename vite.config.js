@@ -11,8 +11,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        main: resolve(__dirname, 'index.html'),
-        flyby: resolve(__dirname, 'data.html'),
+        main: resolve(__dirname, 'data.html'),
+        flyby: resolve(__dirname, 'flyby.html'),
       },
     },
   },
