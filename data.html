@@ -56,80 +56,150 @@
       </div>
     </div>
 
-    <div
-      style="width: 80%; padding: 10px 50px; height: 100svh; overflow: scroll"
-    >
-      <h1>Results</h1>
-      <p>
-        After training, I obtained some results for Near-Earth Objects (NEOs),
-        which show the regions with a high possibility of observing different
-        types of NEOs, such as Amors, Apollos, Atiras, and Atens. The results
-        are visualized using contour heat plots and data spread in Aitoff
-        projection. This documentation covers all information, but I want to
-        include details about unexpected behavior and unusual lines cropping up
-        in the heatmap plots that should not be considered. The smooth color
-        distribution is what we have.
-      </p>
+    <div style="height: 100vh; overflow: scroll; padding: 50px; display: flex; flex-direction: column; gap: 20px;">
+      <h3>Why this data analysis?</h3>
 
-      <h2>Example Plots</h2>
-      <p>
-        Here are some example plots showing the distribution and
-        high-probability regions for observing different types of NEOs:
-      </p>
+      <div>
+        We analyze this data to expand the existing dataset by computing and
+        detecting additional NearEarth Objects (NEOs) using a dataset similar to
+        NeoDyS but at different future times. For instance, using the Pan-STARRS
+        telescope's 24th magnitude scanning range across 15 degrees of the sky
+        in the opposition region, we generate a simulated dataset based on
+        NeoDyS data. We then compare the detected values in this region
+        (magnitude = 24, angular distance = 15 degrees) against the undetected
+        values. This process helps us understand which NEOs have been identified
+        and which remain undetected, within the vastness of the sky but limited
+        to a specific region. By plotting the data, such as perihelion distance
+        versus eccentricity, we gain a visual understanding of the detected
+        versus undetected NEOs. NeoDyS currently lists 2,542 NEO sites, which is
+        a significant number but still doesn’t cover the entire sky, as the
+        plotted graph shows.
+      </div>
 
-      <h3>Amors Plot</h3>
-      <img src="/results/amrosdot.png" alt="Amors Plot" />
-      <p>
-        <em
-          >Figure 1: This plot visualizes the observable region of Amros NEOs
+      <img
+        src="/results/neodyssimulateddistribution.png"
+        alt="Fig 1: Perihelion in AU vs Eccentricity graph showing distribution of NEOs in accordance with
+      NEODys simulated data."
+      />
+
+      <span
+        ><em
+          >Fig 1: Perihelion in AU vs Eccentricity graph showing distribution of
+          NEOs in accordance with NEODys simulated data.</em
+        ></span
+      >
+
+      <h3>Why Granvik model?</h3>
+      <div>
+        To address this limitation, we apply the Granvik model, which provides a
+        non-biased distribution of NEOs in the sky, to deduce a probabilistic
+        distribution of NEOs. Using the CNEOS definition of NEOs, we apply
+        various filters and plot a probability distribution heat map and
+        discrete distribution based on latitude and longitude. In each figure,
+        red dot represents the sun and green dot represents the opposition point
+        with respect to earth.
+      </div>
+      <h4>Definitions</h4>
+      <ul>
+        <li>Atiras: Objects with both perihelion and aphelion &lt; 1 AU</li>
+        <li>
+          Atens: Objects with perihelion &lt; 1 AU and a semi-major axis &lt; 1
+          AU
+        </li>
+        <li>
+          Apollos: Objects with a semi-major axis > 1 AU but perihelion &lt; 1
+          AU
+        </li>
+        <li>
+          Amors: Objects that do not intersect Earth's orbit but approach it
+          from the outside.
+        </li>
+      </ul>
+
+      <img src="/results/atiras24dot.png" />
+      <span
+        ><em
+          >Fig 2: This plot visualizes the observable region of Atiras NEOs
           distribution in sky concentrated after considering solar elongation of
           35 degrees.</em
-        >
-      </p>
+        ></span
+      >
 
-      <h3>Apollo Heat Plot</h3>
-      <img src="/results/apolloheat.png" alt="Apollo Heat Plot" />
-      <p>
-        <em
-          >Figure 2: This plot visualizes the observable region of Apollo NEOs
+      <img src="/results/atirasheat.png" />
+
+      <span
+        ><em
+          >Fig 3: This plot visualizes the observable region of Atiras NEOs
           probabilistic distribution of NEOs per sq. degree in sky concentrated
           after considering solar elongation of 35 degrees. (P.S. Unexpected
           behavior and unusual lines cropping up in the heatmap plots that
           should not be considered).</em
-        >
-      </p>
+        ></span
+      >
 
-      <h3>Atens Plot</h3>
-      <img src="/results/atensl25heat.png" alt="Atens Plot" />
-      <p>
-        <em
-          >Figure 3: This plot visualizes the observable region of Atens NEOs
+      <img src="/results/atensl25dot.png" />
+      <span
+        ><em
+          >Fig 4: This plot visualizes the observable region of Atens NEOs
+          distribution in sky concentrated after considering solar elongation of
+          35 degrees.</em
+        ></span
+      >
+
+      <img src="/results/atensl25heat.png" />
+      <span
+        ><em
+          >Fig 5: This plot visualizes the observable region of Atens NEOs
           probabilistic distribution of NEOs per sq. degree in sky concentrated
           after considering solar elongation of 35 degrees. (P.S. Unexpected
           behavior and unusual lines cropping up in the heatmap plots that
           should not be considered).</em
-        >
-      </p>
+        ></span
+      >
 
-      <h3>Atiras Plot</h3>
-      <img src="/results/atiras24dot.png" alt="Atiras Plot" />
-      <p>
-        <em
-          >Figure 4: This plot visualizes the observable region of Atiras NEOs
+      <img src="/results/apollodot.png" />
+      <span
+        ><em
+          >Fig 6: This plot visualizes the observable region of Apollos NEOs
           distribution in sky concentrated after considering solar elongation of
           35 degrees.</em
-        >
-      </p>
+        ></span
+      >
 
-      <h2>Source</h2>
-      <p>
-        These plots help in understanding the spatial distribution and
-        observation probabilities of various NEO types if the observation was
-        non-biased based on Granvik et. al 2018.
-      </p>
+      <img src="/results/apolloheat.png" />
+      <span
+        ><em
+          >Fig 7: This plot visualizes the observable region of Apollos NEOs
+          probabilistic distribution of NEOs per sq. degree in sky concentrated
+          after considering solar elongation of 35 degrees. (P.S. Unexpected
+          behavior and unusual lines cropping up in the heatmap plots that
+          should not be considered).</em
+        ></span
+      >
+
+      <img src="/results/amrosdot.png" />
+      <span
+        ><em
+          >Fig 8: This plot visualizes the observable region of Amros NEOs
+          distribution in sky concentrated after considering solar elongation of
+          35 degrees.</em
+        ></span
+      >
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <img src="/results/amrosheat.png" style="height: 500px; object-fit: contain;" />
+      <span><em
+        >Fig 9: This plot visualizes the observable region of Amros NEOs
+        probabilistic distribution of NEOs per sq. degree in sky concentrated
+        after considering solar elongation of 35 degrees. (P.S. Unexpected
+        behavior and unusual lines cropping up in the heatmap plots that
+        should not be considered).</em
+      ></span>
+      </div>
+      
     </div>
 
-    <div id="splashScreen">
+    <!-- <div id="splashScreen">
       <div id="splash-loading-wrapper">
         <div id="loading-ring"></div>
         <div id="logo-background"></div>
@@ -152,7 +222,7 @@
         </p>
         <button id="clearSplash">Close</button>
       </div>
-    </div>
+    </div> -->
   </body>
 
   <script>
