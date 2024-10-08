@@ -73,10 +73,13 @@ Click on labels to focus on objects and view detailed information. Use mouse but
 
 ## Sample Output
 
+![Web App](public/data/webapp.png)
+*FIgure 0: Web App*
+
 ![Apollo Dot Plot](neo-datasets/results/apollodot.png)
 
-*Figure 1: This plot visualizes the observable region of Apollo NEOs distribution in sky concentrated after considering solar elongation of 45 degrees.*
+*Figure 1: This plot visualizes the observable region of Apollo NEOs distribution in sky concentrated after considering solar elongation of 35 degrees.*
 
-![Apollo Dot Plot](public/data/bennu.png)
+![Bennu](public/data/bennu.png)
 
 *Figure 2: 3D rendered Bennu asteroid using SPICE DSK files from OSIRIS-ReX.*
